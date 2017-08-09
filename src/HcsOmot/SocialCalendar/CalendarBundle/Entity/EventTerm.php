@@ -22,9 +22,10 @@ class EventTerm
     private $id;
 
     /**
-     * @var int
+     * @var \HcsOmot\SocialCalendar\CalendarBundle\Entity\Event
      *
-     * @ORM\Column(name="event_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\Event")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
      */
     private $eventId;
 
