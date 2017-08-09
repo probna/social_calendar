@@ -1,5 +1,7 @@
 imports:
     - { resource: config_dev.yml }
+parameters:
+    database_name: social_calendar_test
 
 framework:
     test: ~
@@ -9,7 +11,7 @@ framework:
         collect: false
 
 web_profiler:
-    toolbar: false
+    toolbar: true
     intercept_redirects: false
 
 swiftmailer:
