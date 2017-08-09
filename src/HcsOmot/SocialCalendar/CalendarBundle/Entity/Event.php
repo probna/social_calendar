@@ -2,6 +2,7 @@
 
 namespace HcsOmot\SocialCalendar\CalendarBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,6 +19,7 @@ class Event
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\OneToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm", mappedBy="eventId")
      */
     private $id;
 
@@ -43,12 +45,30 @@ class Event
     private $venue;
 
     /**
+     * Final term picked for event
+     *
      * @var \DateTime
      *
-     * @ORM\Column(name="event_term", type="datetime", nullable=false)
+     * @ORM\Column(name="event_term", type="datetime")
      */
     private $eventTerm;
 
+    /**
+     * List of associated terms
+     *
+     * This holds all the terms that were candidates for a final term
+     *
+     * @var \Doctrine\Common\Collections\ArrayCollection
+
+     * @ORM\OneToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm", mappedBy="eventId")
+     */
+    private $candidateTerms;
+
+
+    public function __construct()
+    {
+        $this->candidateTerms = new ArrayCollection();
+    }
 
     /**
      * Get id
