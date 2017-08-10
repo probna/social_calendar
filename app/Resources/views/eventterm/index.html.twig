@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Eventterms list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Term</th>
+                <th>Termscore</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for eventTerm in eventTerms %}
+            <tr>
+                <td><a href="{{ path('eventterm_show', { 'id': eventTerm.id }) }}">{{ eventTerm.id }}</a></td>
+                <td>{% if eventTerm.term %}{{ eventTerm.term|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ eventTerm.termScore }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('eventterm_show', { 'id': eventTerm.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('eventterm_edit', { 'id': eventTerm.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('eventterm_new') }}">Create a new eventTerm</a>
+        </li>
+    </ul>
+{% endblock %}
