@@ -3,9 +3,10 @@
 namespace HcsOmot\SocialCalendar\CalendarBundle\Controller;
 
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Eventterm controller.
@@ -26,9 +27,9 @@ class EventTermController extends Controller
 
         $eventTerms = $em->getRepository('HcsOmotSocialCalendarCalendarBundle:EventTerm')->findAll();
 
-        return $this->render('eventterm/index.html.twig', array(
+        return $this->render('eventterm/index.html.twig', [
             'eventTerms' => $eventTerms,
-        ));
+        ]);
     }
 
     /**
@@ -40,7 +41,7 @@ class EventTermController extends Controller
     public function newAction(Request $request)
     {
         $eventTerm = new Eventterm();
-        $form = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType', $eventTerm);
+        $form      = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType', $eventTerm);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,13 +49,13 @@ class EventTermController extends Controller
             $em->persist($eventTerm);
             $em->flush();
 
-            return $this->redirectToRoute('eventterm_show', array('id' => $eventTerm->getId()));
+            return $this->redirectToRoute('eventterm_show', ['id' => $eventTerm->getId()]);
         }
 
-        return $this->render('eventterm/new.html.twig', array(
+        return $this->render('eventterm/new.html.twig', [
             'eventTerm' => $eventTerm,
-            'form' => $form->createView(),
-        ));
+            'form'      => $form->createView(),
+        ]);
     }
 
     /**
@@ -67,10 +68,10 @@ class EventTermController extends Controller
     {
         $deleteForm = $this->createDeleteForm($eventTerm);
 
-        return $this->render('eventterm/show.html.twig', array(
-            'eventTerm' => $eventTerm,
+        return $this->render('eventterm/show.html.twig', [
+            'eventTerm'   => $eventTerm,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -82,20 +83,20 @@ class EventTermController extends Controller
     public function editAction(Request $request, EventTerm $eventTerm)
     {
         $deleteForm = $this->createDeleteForm($eventTerm);
-        $editForm = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType', $eventTerm);
+        $editForm   = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType', $eventTerm);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('eventterm_edit', array('id' => $eventTerm->getId()));
+            return $this->redirectToRoute('eventterm_edit', ['id' => $eventTerm->getId()]);
         }
 
-        return $this->render('eventterm/edit.html.twig', array(
-            'eventTerm' => $eventTerm,
-            'edit_form' => $editForm->createView(),
+        return $this->render('eventterm/edit.html.twig', [
+            'eventTerm'   => $eventTerm,
+            'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -128,7 +129,7 @@ class EventTermController extends Controller
     private function createDeleteForm(EventTerm $eventTerm)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('eventterm_delete', array('id' => $eventTerm->getId())))
+            ->setAction($this->generateUrl('eventterm_delete', ['id' => $eventTerm->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;
@@ -149,8 +150,6 @@ class EventTermController extends Controller
         $em->persist($eventTerm);
         $em->flush();
 
-        return $this->redirectToRoute("event_show",['id' => $eventTerm->getEvent()->getId()]);
-
+        return $this->redirectToRoute('event_show', ['id' => $eventTerm->getEvent()->getId()]);
     }
-
 }

@@ -2,7 +2,6 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in('app')
-    ->in('spec')
     ->in('src')
     ->in('tests');
 
