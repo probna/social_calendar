@@ -60,7 +60,7 @@ class Event
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
 
-     * @ORM\OneToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm", mappedBy="eventId")
+     * @ORM\OneToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm", mappedBy="event")
      */
     private $candidateTerms;
 
@@ -174,6 +174,19 @@ class Event
     public function geteventTerm()
     {
         return $this->eventTerm;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getCandidateTerms()
+    {
+        return $this->candidateTerms;
     }
 }
 
