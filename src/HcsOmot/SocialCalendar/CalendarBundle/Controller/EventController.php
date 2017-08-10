@@ -3,9 +3,9 @@
 namespace HcsOmot\SocialCalendar\CalendarBundle\Controller;
 
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\Event;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,9 +27,9 @@ class EventController extends Controller
 
         $events = $em->getRepository('HcsOmotSocialCalendarCalendarBundle:Event')->findAll();
 
-        return $this->render('event/index.html.twig', array(
+        return $this->render('event/index.html.twig', [
             'events' => $events,
-        ));
+        ]);
     }
 
     /**
@@ -41,7 +41,7 @@ class EventController extends Controller
     public function newAction(Request $request)
     {
         $event = new Event();
-        $form = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventType', $event);
+        $form  = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventType', $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -49,13 +49,13 @@ class EventController extends Controller
             $em->persist($event);
             $em->flush();
 
-            return $this->redirectToRoute('event_show', array('id' => $event->getId()));
+            return $this->redirectToRoute('event_show', ['id' => $event->getId()]);
         }
 
-        return $this->render('event/new.html.twig', array(
+        return $this->render('event/new.html.twig', [
             'event' => $event,
-            'form' => $form->createView(),
-        ));
+            'form'  => $form->createView(),
+        ]);
     }
 
     /**
@@ -68,10 +68,10 @@ class EventController extends Controller
     {
         $deleteForm = $this->createDeleteForm($event);
 
-        return $this->render('event/show.html.twig', array(
-            'event' => $event,
+        return $this->render('event/show.html.twig', [
+            'event'       => $event,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -83,20 +83,20 @@ class EventController extends Controller
     public function editAction(Request $request, Event $event)
     {
         $deleteForm = $this->createDeleteForm($event);
-        $editForm = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventType', $event);
+        $editForm   = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventType', $event);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('event_edit', array('id' => $event->getId()));
+            return $this->redirectToRoute('event_edit', ['id' => $event->getId()]);
         }
 
-        return $this->render('event/edit.html.twig', array(
-            'event' => $event,
-            'edit_form' => $editForm->createView(),
+        return $this->render('event/edit.html.twig', [
+            'event'       => $event,
+            'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -129,7 +129,7 @@ class EventController extends Controller
     private function createDeleteForm(Event $event)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('event_delete', array('id' => $event->getId())))
+            ->setAction($this->generateUrl('event_delete', ['id' => $event->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;

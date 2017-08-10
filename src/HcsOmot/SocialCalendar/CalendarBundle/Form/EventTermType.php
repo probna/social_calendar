@@ -15,15 +15,15 @@ class EventTermType extends AbstractType
     {
         $builder->add('term')->add('termScore')->add('event');
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm',
+        ]);
     }
 
     /**
@@ -33,6 +33,4 @@ class EventTermType extends AbstractType
     {
         return 'hcsomot_socialcalendar_calendarbundle_eventterm';
     }
-
-
 }

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Event
+ * Event.
  *
  * @ORM\Table(name="event")
  * @ORM\Entity(repositoryClass="HcsOmot\SocialCalendar\CalendarBundle\Repository\EventRepository")
@@ -45,7 +45,7 @@ class Event
     private $venue;
 
     /**
-     * Final term picked for event
+     * Final term picked for event.
      *
      * @var \DateTime
      *
@@ -54,16 +54,14 @@ class Event
     private $eventTerm;
 
     /**
-     * List of associated terms
+     * List of associated terms.
      *
      * This holds all the terms that were candidates for a final term
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
-
      * @ORM\OneToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm", mappedBy="event")
      */
     private $candidateTerms;
-
 
     public function __construct()
     {
@@ -71,7 +69,7 @@ class Event
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -81,7 +79,7 @@ class Event
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -95,7 +93,7 @@ class Event
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -105,7 +103,7 @@ class Event
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -119,7 +117,7 @@ class Event
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -129,7 +127,7 @@ class Event
     }
 
     /**
-     * Set venue
+     * Set venue.
      *
      * @param string $venue
      *
@@ -143,7 +141,7 @@ class Event
     }
 
     /**
-     * Get venue
+     * Get venue.
      *
      * @return string
      */
@@ -153,7 +151,7 @@ class Event
     }
 
     /**
-     * Set time
+     * Set time.
      *
      * @param \DateTime $eventTerm
      *
@@ -167,7 +165,7 @@ class Event
     }
 
     /**
-     * Get event term
+     * Get event term.
      *
      * @return \DateTime
      */
@@ -189,4 +187,3 @@ class Event
         return $this->candidateTerms;
     }
 }
-
