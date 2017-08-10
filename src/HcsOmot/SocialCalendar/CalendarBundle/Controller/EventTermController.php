@@ -149,7 +149,8 @@ class EventTermController extends Controller
         $em->persist($eventTerm);
         $em->flush();
 
-        return $this->redirectToRoute('eventterm_index');
+        return $this->redirectToRoute("event_show",['id' => $eventTerm->getEvent()->getId()]);
 
     }
+
 }
