@@ -2,6 +2,7 @@
 
 namespace HcsOmot\SocialCalendar\CalendarBundle\Entity;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,13 @@ class EventTerm
      * @ORM\Column(name="term_score", type="float")
      */
     private $termScore;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="attendee", referencedColumnName="id")
+     */
+    private $attendee;
 
     /**
      * Get id.
@@ -141,5 +149,26 @@ class EventTerm
     public function voteForTerm()
     {
         ++$this->termScore;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAttendee()
+    {
+        return $this->attendee;
+    }
+
+
+    /**
+     * @param \AppBundle\Entity\User $attendee
+     *
+     * @return $this
+     */
+    public function setAttendee(User $attendee)
+    {
+        $this->attendee = $attendee;
+
+        return $this;
     }
 }
