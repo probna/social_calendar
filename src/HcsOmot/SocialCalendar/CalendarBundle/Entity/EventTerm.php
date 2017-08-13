@@ -22,12 +22,12 @@ class EventTerm
     private $id;
 
     /**
-     * @var \HcsOmot\SocialCalendar\CalendarBundle\Entity\Event
+     * @var Event
      *
-     * @ORM\ManyToOne(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\Event")
+     * @ORM\ManyToOne(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\Event", inversedBy="candidateTerms")
      * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
      */
-    private $eventId;
+    private $event;
 
     /**
      * @var \DateTime
@@ -55,27 +55,27 @@ class EventTerm
     }
 
     /**
-     * Set eventId
+     * Set event
      *
-     * @param integer $eventId
+     * @param Event $event
      *
-     * @return EventTerm
+     * @return Event
      */
-    public function setEventId($eventId)
+    public function setEvent(Event $event)
     {
-        $this->eventId = $eventId;
+        $this->event = $event;
 
         return $this;
     }
 
     /**
-     * Get eventId
+     * Get event
      *
-     * @return int
+     * @return Event
      */
-    public function getEventId()
+    public function getEvent()
     {
-        return $this->eventId;
+        return $this->event;
     }
 
     /**
@@ -124,6 +124,25 @@ class EventTerm
     public function getTermScore()
     {
         return $this->termScore;
+    }
+
+    /**
+     * Get string reporesentation of EventTerm entity
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->term->format('Y-m-d H:i:s');
+    }
+
+
+    /**
+     * Performs a +1 vote for this Event Term
+     */
+    public function voteForTerm()
+    {
+        $this->termScore++;
     }
 }
 
