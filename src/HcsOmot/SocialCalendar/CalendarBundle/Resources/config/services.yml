@@ -1,0 +1,4 @@
+services:
+#    hcs_omot_social_calendar_calendar.example:
+#        class: HcsOmot\SocialCalendar\CalendarBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
