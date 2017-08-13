@@ -2,6 +2,7 @@
 
 namespace HcsOmot\SocialCalendar\CalendarBundle\Entity;
 
+use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -62,6 +63,15 @@ class Event
      * @ORM\OneToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm", mappedBy="event")
      */
     private $candidateTerms;
+
+    /**
+     * Event owner.
+     *
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="owner", referencedColumnName="id")
+     */
+    private $owner;
 
     public function __construct()
     {
