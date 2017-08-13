@@ -5,7 +5,7 @@ namespace HcsOmot\SocialCalendar\CalendarBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * EventTerm
+ * EventTerm.
  *
  * @ORM\Table(name="event_term")
  * @ORM\Entity(repositoryClass="HcsOmot\SocialCalendar\CalendarBundle\Repository\EventTermRepository")
@@ -43,9 +43,8 @@ class EventTerm
      */
     private $termScore;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -55,7 +54,7 @@ class EventTerm
     }
 
     /**
-     * Set event
+     * Set event.
      *
      * @param Event $event
      *
@@ -69,7 +68,7 @@ class EventTerm
     }
 
     /**
-     * Get event
+     * Get event.
      *
      * @return Event
      */
@@ -79,7 +78,7 @@ class EventTerm
     }
 
     /**
-     * Set term
+     * Set term.
      *
      * @param \DateTime $term
      *
@@ -93,7 +92,7 @@ class EventTerm
     }
 
     /**
-     * Get term
+     * Get term.
      *
      * @return \DateTime
      */
@@ -103,7 +102,7 @@ class EventTerm
     }
 
     /**
-     * Set termScore
+     * Set termScore.
      *
      * @param float $termScore
      *
@@ -117,7 +116,7 @@ class EventTerm
     }
 
     /**
-     * Get termScore
+     * Get termScore.
      *
      * @return float
      */
@@ -127,7 +126,7 @@ class EventTerm
     }
 
     /**
-     * Get string reporesentation of EventTerm entity
+     * Get string reporesentation of EventTerm entity.
      *
      * @return string
      */
@@ -136,13 +135,11 @@ class EventTerm
         return $this->term->format('Y-m-d H:i:s');
     }
 
-
     /**
-     * Performs a +1 vote for this Event Term
+     * Performs a +1 vote for this Event Term.
      */
     public function voteForTerm()
     {
-        $this->termScore++;
+        ++$this->termScore;
     }
 }
-

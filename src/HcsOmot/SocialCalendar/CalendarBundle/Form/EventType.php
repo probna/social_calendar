@@ -15,15 +15,15 @@ class EventType extends AbstractType
     {
         $builder->add('name')->add('description')->add('venue')->add('eventTerm');
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'HcsOmot\SocialCalendar\CalendarBundle\Entity\Event'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'HcsOmot\SocialCalendar\CalendarBundle\Entity\Event',
+        ]);
     }
 
     /**
@@ -33,6 +33,4 @@ class EventType extends AbstractType
     {
         return 'hcsomot_socialcalendar_calendarbundle_event';
     }
-
-
 }
