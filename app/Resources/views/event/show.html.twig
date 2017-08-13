@@ -29,7 +29,17 @@
                 <th>Event's term candidates</th>
                 <td><ul>
                         {% for term in event.candidateTerms %}
-                            <li>{{ term }}</li>
+                            <li>
+                                {{ term }} ( current score: {{ term.termScore }} )
+
+                            <form method="post" action="{{ path('eventterm_vote', {'id' : term.id}) }}" class="inline">
+                                <button type="submit" name="vote_for_this_event_term" value="Vote" class="link-button">Vote
+                                </button>
+                            </form>
+                            </li>
+
+
+
                         {% endfor %}
                     </ul></td>
             </tr>
