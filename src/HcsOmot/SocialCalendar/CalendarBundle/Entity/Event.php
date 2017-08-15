@@ -68,14 +68,22 @@ class Event
      * Event owner.
      *
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="ownedEvents")
      * @ORM\JoinColumn(name="owner", referencedColumnName="id")
      */
     private $owner;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="attends")
+     * @ORM\JoinTable(name="event_attendees")
+     */
+    private $attendees;
+
     public function __construct()
     {
         $this->candidateTerms = new ArrayCollection();
+        $this->attendees      = new ArrayCollection();
     }
 
     /**

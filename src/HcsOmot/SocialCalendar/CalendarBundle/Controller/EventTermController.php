@@ -143,7 +143,7 @@ class EventTermController extends Controller
      */
     public function voteForTerm(Request $request, EventTerm $eventTerm)
     {
-        $eventTerm->voteForTerm();
+        $eventTerm->addTermVoter($this->getUser());
 
         $em = $this->getDoctrine()->getManager();
 
