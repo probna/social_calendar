@@ -1,0 +1,71 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: msvrtan/square:0.2.1
+      - image: mysql:5.7
+        environment:
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_DATABASE=social_calendar
+          - MYSQL_USER=symfony
+          - MYSQL_PASSWORD=symfony
+      - image: selenium/standalone-firefox:2.53.0
+        environment:
+          - SCREEN_WIDTH=1920
+          - SCREEN_HEIGHT=1200
+        extra_hosts:
+          - "www.social_calendar.com:127.0.0.1"
+          - "test.social_calendar.com:127.0.0.1"
+    working_directory: /var/www
+    parallel: 1
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: cache-{{ checksum "composer.lock" }}
+      - run:
+          name: Setup
+          command: |
+            set -exu
+            ./etc/circleci2/disable-xdebug.sh
+            ./etc/circleci2/setup.sh
+            service php7.1-fpm restart
+            service nginx restart
+
+            #run composer
+            SYMFONY_ENV=test composer install --prefer-dist --no-interaction
+
+            #wait for db to start
+            dockerize -wait tcp://localhost:3306 -timeout 1m
+
+            #setup db
+            php bin/console doctrine:database:create --env=test
+            php bin/console doctrine:migrations:migrate --env=test --no-interaction
+            php bin/console doctrine:fixtures:load --env=test --no-interaction
+
+      - run:
+          name: Behat
+          command: ./vendor/bin/behat
+      - run:
+          name: PHP CS Fixer
+          command: ./vendor/bin/php-cs-fixer fix --dry-run --diff
+
+      - save_cache:
+          key: cache-{{ checksum "composer.lock" }}
+          paths:
+            - /var/www/vendor
+            - /var/www/bin
+
+      - store_artifacts:
+          path: build
+          destination: build
+      - store_artifacts:
+          path: /var/log/nginx
+          destination: build
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
