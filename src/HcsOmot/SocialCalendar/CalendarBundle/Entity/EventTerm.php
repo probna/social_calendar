@@ -47,9 +47,16 @@ class EventTerm
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-     * @ORM\JoinColumn(name="attendee", referencedColumnName="id")
+     * @ORM\JoinColumn(name="term_proposer", referencedColumnName="id")
      */
-    private $attendee;
+    private $termProposer;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection;
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="id")
+     * @ORM\JoinColumn(name="voter", referencedColumnName="id")
+     */
+    private $termVoters;
 
     /**
      * Get id.
@@ -154,20 +161,19 @@ class EventTerm
     /**
      * @return mixed
      */
-    public function getAttendee()
+    public function getTermProposer()
     {
-        return $this->attendee;
+        return $this->termProposer;
     }
 
-
     /**
-     * @param \AppBundle\Entity\User $attendee
+     * @param \AppBundle\Entity\User $termProposer
      *
      * @return $this
      */
-    public function setAttendee(User $attendee)
+    public function setTermProposer(User $termProposer)
     {
-        $this->attendee = $attendee;
+        $this->termProposer = $termProposer;
 
         return $this;
     }

@@ -68,7 +68,7 @@ class Event
      * Event owner.
      *
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="events")
      * @ORM\JoinColumn(name="owner", referencedColumnName="id")
      */
     private $owner;
