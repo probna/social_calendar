@@ -2,6 +2,7 @@
 
 namespace HcsOmot\SocialCalendar\CalendarBundle\Controller;
 
+use HcsOmot\SocialCalendar\CalendarBundle\Entity\Event;
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,16 +36,19 @@ class EventTermController extends Controller
     /**
      * Creates a new eventTerm entity.
      *
-     * @Route("/new", name="eventterm_new")
+     * @Route("/new/{id}", name="eventterm_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Event $event)
     {
         $eventTerm = new Eventterm();
+        $eventTerm->setEvent($event);
         $form      = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType', $eventTerm);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $eventTerm->setTermProposer($this->getUser());
+            $eventTerm->addTermVoter($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($eventTerm);
             $em->flush();
