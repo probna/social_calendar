@@ -5,7 +5,8 @@
     "autoload": {
         "psr-4": {
             "AppBundle\\": "src/AppBundle",
-            "HcsOmot\\SocialCalendar\\CalendarBundle\\": "src/HcsOmot/SocialCalendar/CalendarBundle/"
+            "HcsOmot\\SocialCalendar\\CalendarBundle\\": "src/HcsOmot/SocialCalendar/CalendarBundle/",
+            "Resources\\" : "src/Resources"
         },
         "classmap": [
             "app/AppKernel.php",
