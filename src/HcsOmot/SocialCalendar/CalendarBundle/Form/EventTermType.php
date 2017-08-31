@@ -13,7 +13,7 @@ class EventTermType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('term')->add('termScore')->add('event');
+        $builder->add('term');
     }
 
     /**

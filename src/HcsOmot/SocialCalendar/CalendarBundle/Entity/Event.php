@@ -50,7 +50,7 @@ class Event
      *
      * @var \DateTime
      *
-     * @ORM\Column(name="event_term", type="datetime")
+     * @ORM\Column(name="event_term", type="datetime", nullable=true)
      */
     private $eventTerm;
 
