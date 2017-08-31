@@ -3,6 +3,8 @@
 namespace HcsOmot\SocialCalendar\CalendarBundle\Entity;
 
 use AppBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,7 +42,7 @@ class EventTerm
     /**
      * @var float
      *
-     * @ORM\Column(name="term_score", type="float")
+     * @ORM\Column(name="term_score", type="float", nullable=true)
      */
     private $termScore;
 
@@ -52,11 +54,36 @@ class EventTerm
     private $termProposer;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection;
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="id")
-     * @ORM\JoinColumn(name="voter", referencedColumnName="id")
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="votedTerms")
+     * @ORM\JoinTable(name="term_voters")
      */
-    private $termVoters;
+    protected $termVoters;
+
+    public function __construct()
+    {
+        $this->termVoters = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTermVoters(): Collection
+    {
+        return $this->termVoters;
+    }
+
+    /**
+     * @param User $termVoter
+     */
+    public function addTermVoter(User $termVoter)
+    {
+        if (false === $this->termVoters->contains($termVoter)) {
+            $this->termVoters->add($termVoter);
+            $this->termScore = $this->termVoters->count();
+        }
+    }
 
     /**
      * Get id.
@@ -151,23 +178,15 @@ class EventTerm
     }
 
     /**
-     * Performs a +1 vote for this Event Term.
+     * @return User
      */
-    public function voteForTerm()
-    {
-        ++$this->termScore;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTermProposer()
+    public function getTermProposer(): User
     {
         return $this->termProposer;
     }
 
     /**
-     * @param \AppBundle\Entity\User $termProposer
+     * @param User $termProposer
      *
      * @return $this
      */
