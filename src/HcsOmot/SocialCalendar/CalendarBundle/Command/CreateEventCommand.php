@@ -7,6 +7,10 @@ use AppBundle\Entity\User;
 class CreateEventCommand
 {
     /**
+     * @var int
+     */
+    private $id;
+    /**
      * @var string
      */
     private $name;
@@ -22,19 +26,14 @@ class CreateEventCommand
      * @var \AppBundle\Entity\User
      */
     private $owner;
-    /**
-     * @var int
-     */
-    private $id;
 
     public function __construct(int $id, string $name, string $description, string $venue, User $owner)
     {
-        // TODO: write logic here
-        $this->name = $name;
+        $this->id          = $id;
+        $this->name        = $name;
         $this->description = $description;
-        $this->venue = $venue;
-        $this->owner = $owner;
-        $this->id = $id;
+        $this->venue       = $venue;
+        $this->owner       = $owner;
     }
 
     /**

@@ -15,19 +15,21 @@ class CreateEventHandler
 
     public function __construct(EntityManager $entityManager)
     {
-
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @param \HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventCommand $createEventCommand
+     */
     public function handle(CreateEventCommand $createEventCommand)
     {
-      $event = new Event();
+        $event = new Event();
 
-      $event->setId($createEventCommand->getId());
-      $event->setName($createEventCommand->getName());
-      $event->setDescription($createEventCommand->getDescription());
-      $event->setVenue($createEventCommand->getVenue());
-      $event->setOwner($createEventCommand->getOwner());
+        $event->setId($createEventCommand->getId());
+        $event->setName($createEventCommand->getName());
+        $event->setDescription($createEventCommand->getDescription());
+        $event->setVenue($createEventCommand->getVenue());
+        $event->setOwner($createEventCommand->getOwner());
 
         $this->entityManager->persist($event);
         $this->entityManager->flush();

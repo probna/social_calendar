@@ -16,6 +16,6 @@ class CreateEventCommandSpec extends ObjectBehavior
 
     public function let(User $owner)
     {
-        $this->beConstructedWith($name = 'bbq', $description = 'bbq party', $venue = 'bbq pit', $owner);
+        $this->beConstructedWith($id = time(), $name = 'bbq', $description = 'bbq party', $venue = 'bbq pit', $owner);
     }
 }
