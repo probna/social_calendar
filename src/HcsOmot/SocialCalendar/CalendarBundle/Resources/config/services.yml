@@ -8,3 +8,10 @@ services:
         - "@doctrine.orm.entity_manager"
       tags:
         - {name: tactician.handler, command: HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventCommand}
+
+    edit_event_handler:
+      class: HcsOmot\SocialCalendar\CalendarBundle\Handler\EditEventHandler
+      arguments:
+        - "@doctrine.orm.entity_manager"
+      tags:
+        - {name: tactician.handler, command: HcsOmot\SocialCalendar\CalendarBundle\Command\EditEventCommand}
