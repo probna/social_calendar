@@ -29,11 +29,11 @@ class EditEventCommand
 
     public function __construct(int $id, string $name, string $description, string $venue, User $owner)
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->id          = $id;
+        $this->name        = $name;
         $this->description = $description;
-        $this->venue = $venue;
-        $this->owner = $owner;
+        $this->venue       = $venue;
+        $this->owner       = $owner;
     }
 
     /**

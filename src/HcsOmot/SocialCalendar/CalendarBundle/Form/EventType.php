@@ -4,7 +4,6 @@ namespace HcsOmot\SocialCalendar\CalendarBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EventType extends AbstractType
 {
@@ -15,7 +14,6 @@ class EventType extends AbstractType
     {
         $builder->add('name')->add('description')->add('venue');
     }
-
 
     /**
      * {@inheritdoc}

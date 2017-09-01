@@ -3,6 +3,7 @@
 namespace HcsOmot\SocialCalendar\CalendarBundle\Controller;
 
 use HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventCommand;
+use HcsOmot\SocialCalendar\CalendarBundle\Command\EditEventCommand;
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\Event;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -47,13 +48,13 @@ class EventController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $commandBus = $this->get('tactician.commandbus');
 
-            $eventId = time();
-
+            $eventId          = time();
             $eventName        = $form->getData()['name'];
             $eventDescription = $form->getData()['description'];
             $eventVenue       = $form->getData()['venue'];
+            $eventOwner       = $this->getUser();
 
-            $createNewEventCommand = new CreateEventCommand($eventId, $eventName, $eventDescription, $eventVenue, $this->getUser());
+            $createNewEventCommand = new CreateEventCommand($eventId, $eventName, $eventDescription, $eventVenue, $eventOwner);
 
             $commandBus->handle($createNewEventCommand);
 
@@ -90,10 +91,24 @@ class EventController extends Controller
     public function editAction(Request $request, Event $event)
     {
         $deleteForm = $this->createDeleteForm($event);
+
         $editForm   = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventType', $event);
+
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $eventId          = $event->getId();
+            $eventName        = $editForm['name']->getData();
+            $eventDescription = $editForm['description']->getData();
+            $eventVenue       = $editForm['venue']->getData();
+            $eventOwner       = $this->getUser();
+
+            $editEventCommand = new EditEventCommand($eventId, $eventName, $eventDescription, $eventVenue, $eventOwner);
+
+            $commandBus = $this->get('tactician.commandbus');
+
+            $commandBus->handle($editEventCommand);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('event_edit', ['id' => $event->getId()]);
