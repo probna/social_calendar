@@ -17,3 +17,4 @@
 /web/bundles/
 .idea/
 *.orig
+.php_cs.cache
