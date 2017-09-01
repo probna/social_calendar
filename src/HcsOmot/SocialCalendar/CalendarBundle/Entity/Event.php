@@ -19,7 +19,7 @@ class Event
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm", mappedBy="eventId")
      */
     private $id;
@@ -94,6 +94,11 @@ class Event
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -203,5 +208,21 @@ class Event
     public function getCandidateTerms()
     {
         return $this->candidateTerms;
+    }
+
+    /**
+     * @return \AppBundle\Entity\User
+     */
+    public function getOwner(): \AppBundle\Entity\User
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param \AppBundle\Entity\User $owner
+     */
+    public function setOwner(\AppBundle\Entity\User $owner)
+    {
+        $this->owner = $owner;
     }
 }

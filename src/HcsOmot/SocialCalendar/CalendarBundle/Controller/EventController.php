@@ -2,6 +2,7 @@
 
 namespace HcsOmot\SocialCalendar\CalendarBundle\Controller;
 
+use HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventCommand;
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\Event;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,6 +24,7 @@ class EventController extends Controller
      */
     public function indexAction()
     {
+
         $em = $this->getDoctrine()->getManager();
 
         $events = $em->getRepository('HcsOmotSocialCalendarCalendarBundle:Event')->findAll();
@@ -40,20 +42,36 @@ class EventController extends Controller
      */
     public function newAction(Request $request)
     {
-        $event = new Event();
-        $form  = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventType', $event);
+//        $event = new Event();
+        $form  = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventType');
         $form->handleRequest($request);
 
+//        var_dump($form->getData());
+//        die();
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($event);
-            $em->flush();
 
-            return $this->redirectToRoute('event_show', ['id' => $event->getId()]);
+            $commandBus = $this->get('tactician.commandbus');
+
+//            $eventId = time();
+            $eventId = 79;
+
+            $eventName = $form->getData()['name'];
+            $eventDescr = $form->getData()['description'];
+            $eventVenue = $form->getData()['venue'];
+
+            $createNewEventCommand = new CreateEventCommand($eventId, $eventName, $eventDescr, $eventVenue, $this->getUser());
+
+            $commandBus->handle($createNewEventCommand);
+//            die('bbbb');
+
+//            $em = $this->getDoctrine()->getManager();
+//            $em->persist($event);
+//            $em->flush();
+
+            return $this->redirectToRoute('event_show', ['id' => $eventId]);
         }
 
         return $this->render('event/new.html.twig', [
-            'event' => $event,
             'form'  => $form->createView(),
         ]);
     }
