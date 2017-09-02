@@ -80,10 +80,15 @@ class Event
      */
     private $attendees;
 
-    public function __construct()
+    public function __construct(int $id, string $name, string $description, string $venue, User $owner)
     {
         $this->candidateTerms = new ArrayCollection();
         $this->attendees      = new ArrayCollection();
+        $this->id             = $id;
+        $this->name           = $name;
+        $this->description    = $description;
+        $this->venue          = $venue;
+        $this->owner          = $owner;
     }
 
     /**
@@ -94,25 +99,6 @@ class Event
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setId(int $id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Event
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -197,9 +183,12 @@ class Event
         return $this->eventTerm;
     }
 
-    public function __toString()
+    /**
+     * @return \AppBundle\Entity\User
+     */
+    public function getOwner(): \AppBundle\Entity\User
     {
-        return $this->name;
+        return $this->owner;
     }
 
     /**
@@ -210,19 +199,8 @@ class Event
         return $this->candidateTerms;
     }
 
-    /**
-     * @return \AppBundle\Entity\User
-     */
-    public function getOwner(): \AppBundle\Entity\User
+    public function __toString()
     {
-        return $this->owner;
-    }
-
-    /**
-     * @param \AppBundle\Entity\User $owner
-     */
-    public function setOwner(\AppBundle\Entity\User $owner)
-    {
-        $this->owner = $owner;
+        return $this->name;
     }
 }
