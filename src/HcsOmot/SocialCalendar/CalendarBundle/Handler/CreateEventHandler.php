@@ -23,13 +23,13 @@ class CreateEventHandler
      */
     public function handle(CreateEventCommand $createEventCommand)
     {
-        $event = new Event();
+        $eventId          = $createEventCommand->getId();
+        $eventName        =$createEventCommand->getName();
+        $eventDescription = $createEventCommand->getDescription();
+        $eventVenue       = $createEventCommand->getVenue();
+        $eventOwner       = $createEventCommand->getOwner();
 
-        $event->setId($createEventCommand->getId());
-        $event->setName($createEventCommand->getName());
-        $event->setDescription($createEventCommand->getDescription());
-        $event->setVenue($createEventCommand->getVenue());
-        $event->setOwner($createEventCommand->getOwner());
+        $event = new Event($eventId, $eventName, $eventDescription, $eventVenue, $eventOwner);
 
         $this->entityManager->persist($event);
         $this->entityManager->flush();
