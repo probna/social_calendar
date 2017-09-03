@@ -2,8 +2,6 @@
 
 namespace HcsOmot\SocialCalendar\CalendarBundle\Command;
 
-use AppBundle\Entity\User;
-
 class EditEventCommand
 {
     /**
@@ -13,27 +11,17 @@ class EditEventCommand
     /**
      * @var string
      */
-    private $name;
-    /**
-     * @var string
-     */
     private $description;
     /**
      * @var string
      */
     private $venue;
-    /**
-     * @var \AppBundle\Entity\User
-     */
-    private $owner;
 
-    public function __construct(int $id, string $name, string $description, string $venue, User $owner)
+    public function __construct(int $id, string $description, string $venue)
     {
         $this->id          = $id;
-        $this->name        = $name;
         $this->description = $description;
         $this->venue       = $venue;
-        $this->owner       = $owner;
     }
 
     /**
@@ -42,14 +30,6 @@ class EditEventCommand
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     /**
@@ -66,13 +46,5 @@ class EditEventCommand
     public function getVenue(): string
     {
         return $this->venue;
-    }
-
-    /**
-     * @return \AppBundle\Entity\User
-     */
-    public function getOwner(): \AppBundle\Entity\User
-    {
-        return $this->owner;
     }
 }

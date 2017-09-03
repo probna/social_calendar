@@ -67,11 +67,13 @@ class EventTerm
     }
 
     /**
-     * @return Collection
+     * Get id.
+     *
+     * @return int
      */
-    public function getTermVoters(): Collection
+    public function getId()
     {
-        return $this->termVoters;
+        return $this->id;
     }
 
     /**
@@ -86,13 +88,11 @@ class EventTerm
     }
 
     /**
-     * Get id.
-     *
-     * @return int
+     * @return Collection
      */
-    public function getId()
+    public function getTermVoters(): Collection
     {
-        return $this->id;
+        return $this->termVoters;
     }
 
     /**

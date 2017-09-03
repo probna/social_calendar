@@ -92,24 +92,20 @@ class EventController extends Controller
     {
         $deleteForm = $this->createDeleteForm($event);
 
-        $editForm   = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventType', $event);
+        $editForm   = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventEditType', $event);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $eventId          = $event->getId();
-            $eventName        = $editForm['name']->getData();
             $eventDescription = $editForm['description']->getData();
             $eventVenue       = $editForm['venue']->getData();
-            $eventOwner       = $this->getUser();
 
-            $editEventCommand = new EditEventCommand($eventId, $eventName, $eventDescription, $eventVenue, $eventOwner);
+            $editEventCommand = new EditEventCommand($eventId, $eventDescription, $eventVenue);
 
             $commandBus = $this->get('tactician.commandbus');
 
             $commandBus->handle($editEventCommand);
-
-            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('event_edit', ['id' => $event->getId()]);
         }

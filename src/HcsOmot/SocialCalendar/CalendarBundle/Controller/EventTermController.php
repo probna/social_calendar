@@ -36,7 +36,7 @@ class EventTermController extends Controller
     /**
      * Creates a new eventTerm entity.
      *
-     * @Route("/new/{id}", name="eventterm_new")
+     * @Route("/new", name="eventterm_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request, Event $event)
