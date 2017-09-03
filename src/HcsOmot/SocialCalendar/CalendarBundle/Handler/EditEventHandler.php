@@ -26,10 +26,8 @@ class EditEventHandler
 
         $event = $eventRepository->findOneBy(['id' => $editEventCommand->getId()]);
 
-        $event->setName($editEventCommand->getName());
         $event->setDescription($editEventCommand->getDescription());
         $event->setVenue($editEventCommand->getVenue());
-        $event->setOwner($editEventCommand->getOwner());
 
         $this->entityManager->persist($event);
         $this->entityManager->flush();
