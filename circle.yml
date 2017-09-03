@@ -48,6 +48,9 @@ jobs:
           name: Behat
           command: ./vendor/bin/behat
       - run:
+          name: PhpSpec
+          command: ./vendor/bin/phpspec run --format pretty
+      - run:
           name: PHP CS Fixer
           command: ./vendor/bin/php-cs-fixer fix --dry-run --diff
 
