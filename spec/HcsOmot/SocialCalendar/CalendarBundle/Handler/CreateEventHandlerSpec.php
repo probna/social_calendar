@@ -20,12 +20,14 @@ class CreateEventHandlerSpec extends ObjectBehavior
     {
         $this->beConstructedWith($entityManager);
     }
-    public function it_should_handle_command(CreateEventCommand $createEventCommand)
+
+    public function it_should_handle_command(CreateEventCommand $createEventCommand, User $owner)
     {
         $createEventCommand->getId()->willReturn(445);
         $createEventCommand->getName()->willReturn('richard, dear');
         $createEventCommand->getDescription()->willReturn('mind the cows!');
         $createEventCommand->getVenue()->willReturn('in England!');
+        $createEventCommand->getOwner()->willReturn($owner);
         $this->handle($createEventCommand);
 
     }
