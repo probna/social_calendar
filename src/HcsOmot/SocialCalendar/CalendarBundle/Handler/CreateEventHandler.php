@@ -24,7 +24,7 @@ class CreateEventHandler
     public function handle(CreateEventCommand $createEventCommand)
     {
         $eventId          = $createEventCommand->getId();
-        $eventName        =$createEventCommand->getName();
+        $eventName        = $createEventCommand->getName();
         $eventDescription = $createEventCommand->getDescription();
         $eventVenue       = $createEventCommand->getVenue();
         $eventOwner       = $createEventCommand->getOwner();
