@@ -49,9 +49,9 @@ class EventController extends Controller
             $commandBus = $this->get('tactician.commandbus');
 
             $eventId            = time();
-            $eventName          = $form->getData()['name'];
-            $eventDescription   = $form->getData()['description'];
-            $eventVenue         = $form->getData()['venue'];
+            $eventName          = $form['name']->getData();
+            $eventDescription   = $form['description']->getData();
+            $eventVenue         = $form['venue']->getData();
             $eventOwnerId       = $this->getUser()->getId();
 
             $createNewEventCommand = new CreateEventCommand($eventId, $eventName, $eventDescription, $eventVenue, $eventOwnerId);
