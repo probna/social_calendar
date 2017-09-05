@@ -20,7 +20,7 @@ class EventTerm
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -59,11 +59,26 @@ class EventTerm
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="votedTerms")
      * @ORM\JoinTable(name="term_voters")
      */
-    protected $termVoters;
+    private $termVoters;
 
-    public function __construct()
+    /**
+     * EventTerm constructor.
+     *
+     * @param int                                                 $id
+     * @param \HcsOmot\SocialCalendar\CalendarBundle\Entity\Event $event
+     * @param \DateTime                                           $term
+     * @param User                                                $termProposer
+     */
+    public function __construct(int $id, Event $event, \DateTime $term, User $termProposer)
     {
-        $this->termVoters = new ArrayCollection();
+        $this->id             = $id;
+        $this->event          = $event;
+        $this->term           = $term;
+        $this->termProposer   = $termProposer;
+
+        $this->termVoters     = new ArrayCollection();
+
+        $this->addTermVoter($termProposer);
     }
 
     /**
@@ -71,9 +86,37 @@ class EventTerm
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * Get event.
+     *
+     * @return Event
+     */
+    public function getEvent(): Event
+    {
+        return $this->event;
+    }
+
+    /**
+     * Get term.
+     *
+     * @return \DateTime
+     */
+    public function getTerm(): \DateTime
+    {
+        return $this->term;
+    }
+
+    /**
+     * @return User
+     */
+    public function getTermProposer(): User
+    {
+        return $this->termProposer;
     }
 
     /**
@@ -83,7 +126,7 @@ class EventTerm
     {
         if (false === $this->termVoters->contains($termVoter)) {
             $this->termVoters->add($termVoter);
-            $this->termScore = $this->termVoters->count();
+            $this->adjustTermScore();
         }
     }
 
@@ -96,71 +139,21 @@ class EventTerm
     }
 
     /**
-     * Set event.
-     *
-     * @param Event $event
-     *
-     * @return Event
-     */
-    public function setEvent(Event $event)
-    {
-        $this->event = $event;
-
-        return $this;
-    }
-
-    /**
-     * Get event.
-     *
-     * @return Event
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
-
-    /**
-     * Set term.
-     *
-     * @param \DateTime $term
-     *
-     * @return EventTerm
-     */
-    public function setTerm($term)
-    {
-        $this->term = $term;
-
-        return $this;
-    }
-
-    /**
-     * Get term.
-     *
-     * @return \DateTime
-     */
-    public function getTerm()
-    {
-        return $this->term;
-    }
-
-    /**
      * Set termScore.
      *
-     * @param float $termScore
+     * @return \HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm
      *
-     * @return EventTerm
+     * @internal param float $termScore
      */
-    public function setTermScore($termScore)
+    private function adjustTermScore()
     {
-        $this->termScore = $termScore;
-
-        return $this;
+        $this->termScore = $this->termVoters->count();
     }
 
     /**
      * Get termScore.
      *
-     * @return float
+     * @return mixed
      */
     public function getTermScore()
     {
@@ -168,32 +161,12 @@ class EventTerm
     }
 
     /**
-     * Get string reporesentation of EventTerm entity.
+     * Get string representation of EventTerm entity.
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->term->format('Y-m-d H:i:s');
-    }
-
-    /**
-     * @return User
-     */
-    public function getTermProposer(): User
-    {
-        return $this->termProposer;
-    }
-
-    /**
-     * @param User $termProposer
-     *
-     * @return $this
-     */
-    public function setTermProposer(User $termProposer)
-    {
-        $this->termProposer = $termProposer;
-
-        return $this;
     }
 }
