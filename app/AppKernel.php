@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new HcsOmot\SocialCalendar\CalendarBundle\HcsOmotSocialCalendarCalendarBundle(),
             new FOSUserBundle(),
             new League\Tactician\Bundle\TacticianBundle(),
+            new HcsOmot\Geometry\ShapesBundle\HcsOmotGeometryShapesBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

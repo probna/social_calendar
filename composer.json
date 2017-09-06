@@ -6,6 +6,7 @@
         "psr-4": {
             "AppBundle\\": "src/AppBundle",
             "HcsOmot\\SocialCalendar\\CalendarBundle\\": "src/HcsOmot/SocialCalendar/CalendarBundle/",
+            "HcsOmot\\Geometry\\ShapesBundle\\": "src/HcsOmot/Geometry/ShapesBundle/",
             "Resources\\" : "src/Resources"
         },
         "classmap": [

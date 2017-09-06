@@ -1,0 +1,4 @@
+services:
+#    hcs_omot_geometry_shapes.example:
+#        class: HcsOmot\Geometry\ShapesBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
