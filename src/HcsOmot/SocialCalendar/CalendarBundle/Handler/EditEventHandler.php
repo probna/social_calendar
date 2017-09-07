@@ -4,6 +4,7 @@ namespace HcsOmot\SocialCalendar\CalendarBundle\Handler;
 
 use Doctrine\ORM\EntityManager;
 use HcsOmot\SocialCalendar\CalendarBundle\Command\EditEventCommand;
+use HcsOmot\SocialCalendar\CalendarBundle\Repository\EventRepository;
 
 class EditEventHandler
 {
@@ -11,10 +12,15 @@ class EditEventHandler
      * @var \Doctrine\ORM\EntityManager
      */
     private $entityManager;
+    /**
+     * @var \HcsOmot\SocialCalendar\CalendarBundle\Repository\EventRepository
+     */
+    private $eventRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, EventRepository $eventRepository)
     {
-        $this->entityManager = $entityManager;
+        $this->entityManager   = $entityManager;
+        $this->eventRepository = $eventRepository;
     }
 
     /**
@@ -22,10 +28,11 @@ class EditEventHandler
      */
     public function handle(EditEventCommand $editEventCommand)
     {
-        $eventRepository = $this->entityManager->getRepository('HcsOmot\SocialCalendar\CalendarBundle\Entity\Event');
+        $event = $this->eventRepository->find($editEventCommand->getId());
 
-        $event = $eventRepository->findOneBy(['id' => $editEventCommand->getId()]);
-
+        if (null === $event) {
+            throw new \Exception();
+        }
         $event->setDescription($editEventCommand->getDescription());
         $event->setVenue($editEventCommand->getVenue());
 
