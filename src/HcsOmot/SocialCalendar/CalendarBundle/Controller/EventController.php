@@ -49,9 +49,9 @@ class EventController extends Controller
             $commandBus = $this->get('tactician.commandbus');
 
             $eventId          = time();
-            $eventName        = $form->getData()['name'];
-            $eventDescription = $form->getData()['description'];
-            $eventVenue       = $form->getData()['venue'];
+            $eventName        = $form['name']->getData();
+            $eventDescription = $form['description']->getData();
+            $eventVenue       = $form['venue']->getData();
             $eventOwner       = $this->getUser();
 
             $createNewEventCommand = new CreateEventCommand($eventId, $eventName, $eventDescription, $eventVenue, $eventOwner);
@@ -76,9 +76,12 @@ class EventController extends Controller
     {
         $deleteForm = $this->createDeleteForm($event);
 
+        $addTermForm = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType', null, ['action' => $this->generateUrl('add_term_to_event', ['id' => $event->getId()])]);
+
         return $this->render('event/show.html.twig', [
-            'event'       => $event,
-            'delete_form' => $deleteForm->createView(),
+            'event'         => $event,
+            'delete_form'   => $deleteForm->createView(),
+            'add_term_form' => $addTermForm->createView(),
         ]);
     }
 

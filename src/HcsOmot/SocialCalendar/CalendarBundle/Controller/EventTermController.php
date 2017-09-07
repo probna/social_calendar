@@ -2,6 +2,7 @@
 
 namespace HcsOmot\SocialCalendar\CalendarBundle\Controller;
 
+use HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventTermCommand;
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\Event;
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -34,30 +35,30 @@ class EventTermController extends Controller
     }
 
     /**
-     * Creates a new eventTerm entity.
+     * Creates a new eventTerm entity, linking it to the appropriate Event.
      *
-     * @Route("/new/{id}", name="eventterm_new")
+     * @Route("/add_to_event/{id}", name="add_term_to_event")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request, Event $event)
+    public function addTermToEventAction(Event $event, Request $request)
     {
-        $eventTerm = new Eventterm();
-        $eventTerm->setEvent($event);
-        $form      = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType', $eventTerm);
+        $form      = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $eventTerm->setTermProposer($this->getUser());
-            $eventTerm->addTermVoter($this->getUser());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($eventTerm);
-            $em->flush();
+            $eventTermId = time();
+            $term        = $form['term']->getData();
+            $proposer    = $this->getUser();
 
-            return $this->redirectToRoute('eventterm_show', ['id' => $eventTerm->getId()]);
+            $createEventTermCommand = new CreateEventTermCommand($eventTermId, $event, $term, $proposer);
+
+            $commandBus = $this->get('tactician.commandbus');
+            $commandBus->handle($createEventTermCommand);
+
+            return $this->redirectToRoute('event_show', ['id' => $event->getId()]);
         }
 
         return $this->render('eventterm/new.html.twig', [
-            'eventTerm' => $eventTerm,
             'form'      => $form->createView(),
         ]);
     }

@@ -21,3 +21,10 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
           - HcsOmot\SocialCalendar\CalendarBundle\Entity\Event
+
+    create_event_term:
+      class: HcsOmot\SocialCalendar\CalendarBundle\Handler\CreateEventTermHandler
+      arguments:
+        - "@doctrine.orm.entity_manager"
+      tags:
+        - {name: tactician.handler, command: HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventTermCommand}
