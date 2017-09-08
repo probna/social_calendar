@@ -4,6 +4,7 @@ namespace HcsOmot\SocialCalendar\CalendarBundle\Entity;
 
 use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -202,5 +203,42 @@ class Event
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function addTerm(\DateTime $when, User $proposer)
+    {
+        if(false === $this->attendees->contains($proposer)){
+            return;
+        }
+
+        foreach ($this->candidateTerms as $candidateTerm) {
+            if ($candidateTerm->getTerm() == $when){
+                return;
+            }
+        }
+
+        $eventTerm = new EventTerm();
+
+        $eventTerm->setTerm($when);
+
+        $eventTerm->setTermProposer($proposer);
+
+
+            $this->candidateTerms->add($eventTerm);
+
+
+    }
+
+    public function addAttendee(User $attendee)
+    {
+        if(true === $this->attendees->contains($attendee)){
+            return;
+        }
+        $this->attendees->add($attendee);
+    }
+
+    public function getAttendees(): Collection
+    {
+        return $this->attendees;
     }
 }
