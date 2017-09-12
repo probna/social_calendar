@@ -52,7 +52,7 @@ class EventController extends Controller
             $eventName        = $form->getData()['name'];
             $eventDescription = $form->getData()['description'];
             $eventVenue       = $form->getData()['venue'];
-            $eventOwner       = $this->getUser();
+            $eventOwner       = $this->getUser()->getId();
 
             $createNewEventCommand = new CreateEventCommand($eventId, $eventName, $eventDescription, $eventVenue, $eventOwner);
 
