@@ -2,8 +2,6 @@
 
 namespace HcsOmot\SocialCalendar\CalendarBundle\Command;
 
-use AppBundle\Entity\User;
-
 class CreateEventCommand
 {
     /**
@@ -29,10 +27,10 @@ class CreateEventCommand
 
     public function __construct(int $id, string $name, string $description, string $venue, int $ownerID)
     {
-        $this->id          = $id;
-        $this->name        = $name;
-        $this->description = $description;
-        $this->venue       = $venue;
+        $this->id            = $id;
+        $this->name          = $name;
+        $this->description   = $description;
+        $this->venue         = $venue;
         $this->ownerID       = $ownerID;
     }
 

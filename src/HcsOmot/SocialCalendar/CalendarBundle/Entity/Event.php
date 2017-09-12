@@ -207,12 +207,12 @@ class Event
 
     public function addTerm(\DateTime $when, User $proposer)
     {
-        if(false === $this->attendees->contains($proposer)){
+        if (false === $this->attendees->contains($proposer)) {
             return;
         }
 
         foreach ($this->candidateTerms as $candidateTerm) {
-            if ($candidateTerm->getTerm() == $when){
+            if ($candidateTerm->getTerm() == $when) {
                 return;
             }
         }
@@ -223,15 +223,12 @@ class Event
 
         $eventTerm->setTermProposer($proposer);
 
-
-            $this->candidateTerms->add($eventTerm);
-
-
+        $this->candidateTerms->add($eventTerm);
     }
 
     public function addAttendee(User $attendee)
     {
-        if(true === $this->attendees->contains($attendee)){
+        if (true === $this->attendees->contains($attendee)) {
             return;
         }
         $this->attendees->add($attendee);
