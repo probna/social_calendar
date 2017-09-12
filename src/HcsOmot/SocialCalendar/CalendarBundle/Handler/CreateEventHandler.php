@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace HcsOmot\SocialCalendar\CalendarBundle\Handler;
 
+use AppBundle\Entity\User;
 use AppBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventCommand;
@@ -41,11 +44,16 @@ class CreateEventHandler
         $eventVenue       = $createEventCommand->getVenue();
         $eventOwnerID     = $createEventCommand->getOwnerID();
 
-        $eventOwner = $this->userRepository->find($eventOwnerID);
+        $eventOwner = $this->loadUser($eventOwnerID);
 
         $event = new Event($eventId, $eventName, $eventDescription, $eventVenue, $eventOwner);
 
         $this->entityManager->persist($event);
         $this->entityManager->flush();
+    }
+
+    private function loadUser(int $userId): User
+    {
+        return $this->userRepository->find($userId);
     }
 }
