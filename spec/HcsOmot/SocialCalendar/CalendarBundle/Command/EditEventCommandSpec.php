@@ -14,9 +14,9 @@ class EditEventCommandSpec extends ObjectBehavior
         $this->shouldHaveType(EditEventCommand::class);
     }
 
-    public function let(User $owner)
+    public function let()
     {
         $this->beConstructedWith($id = time(), $name = 'bbq party', $description = 'best ev4h, brah',
-            $venue = 'bbq pit', $owner);
+            $venue = 'bbq pit');
     }
 }
