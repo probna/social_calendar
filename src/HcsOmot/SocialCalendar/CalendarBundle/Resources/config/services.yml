@@ -6,6 +6,7 @@ services:
       class: HcsOmot\SocialCalendar\CalendarBundle\Handler\CreateEventHandler
       arguments:
         - "@doctrine.orm.entity_manager"
+        - "@user_repository"
       tags:
         - {name: tactician.handler, command: HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventCommand}
 
@@ -16,8 +17,15 @@ services:
         - "@event_repository"
       tags:
         - {name: tactician.handler, command: HcsOmot\SocialCalendar\CalendarBundle\Command\EditEventCommand}
+
     event_repository:
         class: Doctrine\ORM\EntityRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
           - HcsOmot\SocialCalendar\CalendarBundle\Entity\Event
+
+    user_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+          - AppBundle\Entity\User
