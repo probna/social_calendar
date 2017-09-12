@@ -14,8 +14,9 @@ class CreateEventCommandSpec extends ObjectBehavior
         $this->shouldHaveType(CreateEventCommand::class);
     }
 
-    public function let(User $owner)
+    public function let()
     {
-        $this->beConstructedWith($id = time(), $name = 'bbq', $description = 'bbq party', $venue = 'bbq pit', $owner);
+        $this->beConstructedWith($id = time(), $name = 'bbq', $description = 'bbq party', $venue = 'bbq pit',
+            $ownerID = 1);
     }
 }

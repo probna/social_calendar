@@ -23,17 +23,17 @@ class CreateEventCommand
      */
     private $venue;
     /**
-     * @var \AppBundle\Entity\User
+     * @var int
      */
-    private $owner;
+    private $ownerID;
 
-    public function __construct(int $id, string $name, string $description, string $venue, User $owner)
+    public function __construct(int $id, string $name, string $description, string $venue, int $ownerID)
     {
         $this->id          = $id;
         $this->name        = $name;
         $this->description = $description;
         $this->venue       = $venue;
-        $this->owner       = $owner;
+        $this->ownerID       = $ownerID;
     }
 
     /**
@@ -69,10 +69,10 @@ class CreateEventCommand
     }
 
     /**
-     * @return \AppBundle\Entity\User
+     * @return int
      */
-    public function getOwner(): \AppBundle\Entity\User
+    public function getOwnerID(): int
     {
-        return $this->owner;
+        return $this->ownerID;
     }
 }
