@@ -25,13 +25,13 @@ class CreateEventCommand
      */
     private $ownerID;
 
-    public function __construct(int $id, string $name, string $description, string $venue, int $ownerID)
+    public function __construct(int $id, string $name, string $description, string $venue, int $ownerId)
     {
         $this->id            = $id;
         $this->name          = $name;
         $this->description   = $description;
         $this->venue         = $venue;
-        $this->ownerID       = $ownerID;
+        $this->ownerID       = $ownerId;
     }
 
     /**

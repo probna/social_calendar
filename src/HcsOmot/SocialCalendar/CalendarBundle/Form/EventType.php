@@ -13,7 +13,10 @@ class EventType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('description')->add('venue')->add('eventTerm', DateTimeType::class, ['required' => false, 'label' => 'Propose a term for this event']);
+        $builder->add('name');
+        $builder->add('description');
+        $builder->add('venue');
+        $builder->add('eventTerm', DateTimeType::class, ['required' => false, 'label' => 'Propose a term for this event']);
     }
 
     /**
