@@ -34,7 +34,7 @@ class CreateEventHandlerSpec extends ObjectBehavior {
         $createEventCommand->getName()->willReturn('summerfest madness');
         $createEventCommand->getDescription()->willReturn('description for summerfest event');
         $createEventCommand->getVenue()->willReturn('Great Halls of Valhalla');
-        $createEventCommand->getOwnerID()->willReturn(1);
+        $createEventCommand->getOwnerId()->willReturn(1);
 
 
         $userRepository->find(1)->shouldBeCalled()->willReturn($eventOwner);

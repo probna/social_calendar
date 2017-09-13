@@ -23,15 +23,15 @@ class CreateEventCommand
     /**
      * @var int
      */
-    private $ownerID;
+    private $ownerId;
 
-    public function __construct(int $id, string $name, string $description, string $venue, int $ownerID)
+    public function __construct(int $id, string $name, string $description, string $venue, int $ownerId)
     {
         $this->id            = $id;
         $this->name          = $name;
         $this->description   = $description;
         $this->venue         = $venue;
-        $this->ownerID       = $ownerID;
+        $this->ownerId       = $ownerId;
     }
 
     /**
@@ -69,8 +69,8 @@ class CreateEventCommand
     /**
      * @return int
      */
-    public function getOwnerID(): int
+    public function getOwnerId(): int
     {
-        return $this->ownerID;
+        return $this->ownerId;
     }
 }

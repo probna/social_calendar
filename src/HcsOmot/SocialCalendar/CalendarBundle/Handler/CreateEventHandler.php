@@ -42,9 +42,9 @@ class CreateEventHandler
         $eventName        = $createEventCommand->getName();
         $eventDescription = $createEventCommand->getDescription();
         $eventVenue       = $createEventCommand->getVenue();
-        $eventOwnerID     = $createEventCommand->getOwnerID();
+        $eventOwnerId     = $createEventCommand->getOwnerId();
 
-        $eventOwner = $this->loadUser($eventOwnerID);
+        $eventOwner = $this->loadUser($eventOwnerId);
 
         $event = new Event($eventId, $eventName, $eventDescription, $eventVenue, $eventOwner);
 
