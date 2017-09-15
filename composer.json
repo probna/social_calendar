@@ -4,9 +4,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "AppBundle\\": "src/AppBundle",
-            "HcsOmot\\SocialCalendar\\CalendarBundle\\": "src/HcsOmot/SocialCalendar/CalendarBundle/",
-            "Resources\\" : "src/Resources"
+            "": "src/"
         },
         "classmap": [
             "app/AppKernel.php",
