@@ -42,24 +42,26 @@ class EventTermController extends Controller
      */
     public function addTermToEventAction(Event $event, Request $request)
     {
-        $form      = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType');
+        $form = $this->createForm('HcsOmot\SocialCalendar\CalendarBundle\Form\EventTermType');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $eventTermId = time();
+            $eventId     = $event->getId();
             $term        = $form['term']->getData();
-            $proposer    = $this->getUser();
+            $proposerId  = $this->getUser()->getId();
 
-            $createEventTermCommand = new CreateEventTermCommand($eventTermId, $event, $term, $proposer);
+            $createEventTermCommand = new CreateEventTermCommand($eventTermId, $eventId, $term, $proposerId);
 
             $commandBus = $this->get('tactician.commandbus');
+
             $commandBus->handle($createEventTermCommand);
 
             return $this->redirectToRoute('event_show', ['id' => $event->getId()]);
         }
 
         return $this->render('eventterm/new.html.twig', [
-            'form'      => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -136,8 +138,7 @@ class EventTermController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('eventterm_delete', ['id' => $eventTerm->getId()]))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 
     /**
