@@ -2,9 +2,6 @@
 
 namespace HcsOmot\SocialCalendar\CalendarBundle\Command;
 
-use AppBundle\Entity\User;
-use HcsOmot\SocialCalendar\CalendarBundle\Entity\Event;
-
 class CreateEventTermCommand
 {
     /**
@@ -12,24 +9,24 @@ class CreateEventTermCommand
      */
     private $id;
     /**
-     * @var \HcsOmot\SocialCalendar\CalendarBundle\Entity\Event
+     * @var int
      */
-    private $event;
+    private $eventId;
     /**
      * @var \DateTime
      */
     private $term;
     /**
-     * @var \AppBundle\Entity\User
+     * @var int
      */
-    private $proposer;
+    private $proposerId;
 
-    public function __construct(int $id, Event $event, \DateTime $term, User $proposer)
+    public function __construct(int $id, int $eventId, \DateTime $term, int $proposerId)
     {
-        $this->id       = $id;
-        $this->event    = $event;
-        $this->term     = $term;
-        $this->proposer = $proposer;
+        $this->id         = $id;
+        $this->eventId    = $eventId;
+        $this->term       = $term;
+        $this->proposerId = $proposerId;
     }
 
     /**
@@ -41,14 +38,6 @@ class CreateEventTermCommand
     }
 
     /**
-     * @return \HcsOmot\SocialCalendar\CalendarBundle\Entity\Event
-     */
-    public function getEvent(): \HcsOmot\SocialCalendar\CalendarBundle\Entity\Event
-    {
-        return $this->event;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getTerm(): \DateTime
@@ -57,10 +46,18 @@ class CreateEventTermCommand
     }
 
     /**
-     * @return \AppBundle\Entity\User
+     * @return int
      */
-    public function getProposer(): \AppBundle\Entity\User
+    public function getEventId(): int
     {
-        return $this->proposer;
+        return $this->eventId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProposerId(): int
+    {
+        return $this->proposerId;
     }
 }
