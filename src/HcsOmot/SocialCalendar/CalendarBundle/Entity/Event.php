@@ -205,7 +205,7 @@ class Event
         return $this->name;
     }
 
-    public function addTerm(\DateTime $when, User $proposer)
+    public function addTerm(int $eventTermId, \DateTime $when, User $proposer)
     {
         if (false === $this->attendees->contains($proposer)) {
             return;
@@ -216,8 +216,6 @@ class Event
                 return;
             }
         }
-
-        $eventTermId = time();
 
         $eventTerm = new EventTerm($eventTermId, $this, $when, $proposer);
 
