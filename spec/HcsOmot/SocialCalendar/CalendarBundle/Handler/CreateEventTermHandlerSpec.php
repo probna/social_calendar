@@ -38,7 +38,7 @@ class CreateEventTermHandlerSpec extends ObjectBehavior
 
         $userRepository->find(1)->shouldBeCalled()->willReturn($eventTermProposer);
 
-        $entityManager->persist(Argument::type(EventTerm::class))->shouldBeCalled();
+        $entityManager->persist(Argument::type(Event::class))->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();
 
         $this->handle($createEventTermCommand);
