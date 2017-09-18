@@ -29,7 +29,7 @@ services:
         arguments:
           - AppBundle\Entity\User
 
-    create_event_term:
+    create_event_term_handler:
       class: HcsOmot\SocialCalendar\CalendarBundle\Handler\CreateEventTermHandler
       arguments:
         - "@doctrine.orm.entity_manager"
