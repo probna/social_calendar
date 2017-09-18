@@ -15,9 +15,9 @@ class CreateEventTermCommandSpec extends ObjectBehavior
         $this->shouldHaveType(CreateEventTermCommand::class);
     }
 
-    public function let(Event $event, User $termProposer)
+    public function let(Event $event, User $termProposer, \DateTime $term)
     {
-        $this->beConstructedWith($id = time(), $event, $term = new \DateTime(time()), $termProposer);
+        $this->beConstructedWith($id = time(), $event, $term, $termProposer);
     }
 
 }
