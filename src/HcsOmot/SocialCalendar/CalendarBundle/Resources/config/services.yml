@@ -6,6 +6,7 @@ services:
       class: HcsOmot\SocialCalendar\CalendarBundle\Handler\CreateEventHandler
       arguments:
         - "@doctrine.orm.entity_manager"
+        - "@user_repository"
       tags:
         - {name: tactician.handler, command: HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventCommand}
 
