@@ -5,9 +5,8 @@ namespace HcsOmot\SocialCalendar\CalendarBundle\Handler;
 use AppBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventTermCommand;
-use HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm;
-use HcsOmot\SocialCalendar\CalendarBundle\Repository\EventRepository;
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\Event;
+use HcsOmot\SocialCalendar\CalendarBundle\Repository\EventRepository;
 
 class CreateEventTermHandler
 {
@@ -50,6 +49,5 @@ class CreateEventTermHandler
     private function loadEvent(int $eventId): Event
     {
         return $this->eventRepository->find($eventId);
-
     }
 }
