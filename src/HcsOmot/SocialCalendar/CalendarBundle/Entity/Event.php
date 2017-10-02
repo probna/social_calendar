@@ -83,6 +83,7 @@ class Event
 
     public function __construct(int $id, string $name, string $description, string $venue, User $owner)
     {
+        mirko::increment();
         $this->candidateTerms = new ArrayCollection();
         $this->attendees      = new ArrayCollection();
         $this->id             = $id;
@@ -207,6 +208,13 @@ class Event
 
     public function addTerm(int $eventTermId, \DateTime $when, User $proposer)
     {
+//        this will return bool, and will check if conditions for adding a term to event are satisfied
+        $policy = new Policy($this->attendees, $this->candidateTerms);
+
+        if (false === $policy->isSatisfiedBy($when, $proposer)){
+            return;
+        }
+
         if (false === $this->attendees->contains($proposer)) {
             return;
         }
