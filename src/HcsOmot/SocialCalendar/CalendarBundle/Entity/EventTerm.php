@@ -20,7 +20,7 @@ class EventTerm
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -59,30 +59,26 @@ class EventTerm
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="votedTerms")
      * @ORM\JoinTable(name="term_voters")
      */
-    protected $termVoters;
-
-    public function __construct()
-    {
-        $this->termVoters = new ArrayCollection();
-    }
+    private $termVoters;
 
     /**
-     * @return Collection
+     * EventTerm constructor.
+     *
+     * @param int                                                 $id
+     * @param \HcsOmot\SocialCalendar\CalendarBundle\Entity\Event $event
+     * @param \DateTime                                           $term
+     * @param User                                                $termProposer
      */
-    public function getTermVoters(): Collection
+    public function __construct(int $id, Event $event, \DateTime $term, User $termProposer)
     {
-        return $this->termVoters;
-    }
+        $this->id             = $id;
+        $this->event          = $event;
+        $this->term           = $term;
+        $this->termProposer   = $termProposer;
 
-    /**
-     * @param User $termVoter
-     */
-    public function addTermVoter(User $termVoter)
-    {
-        if (false === $this->termVoters->contains($termVoter)) {
-            $this->termVoters->add($termVoter);
-            $this->termScore = $this->termVoters->count();
-        }
+        $this->termVoters     = new ArrayCollection();
+
+        $this->addTermVoter($termProposer);
     }
 
     /**
@@ -90,23 +86,9 @@ class EventTerm
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * Set event.
-     *
-     * @param Event $event
-     *
-     * @return Event
-     */
-    public function setEvent(Event $event)
-    {
-        $this->event = $event;
-
-        return $this;
     }
 
     /**
@@ -114,23 +96,9 @@ class EventTerm
      *
      * @return Event
      */
-    public function getEvent()
+    public function getEvent(): Event
     {
         return $this->event;
-    }
-
-    /**
-     * Set term.
-     *
-     * @param \DateTime $term
-     *
-     * @return EventTerm
-     */
-    public function setTerm($term)
-    {
-        $this->term = $term;
-
-        return $this;
     }
 
     /**
@@ -138,43 +106,9 @@ class EventTerm
      *
      * @return \DateTime
      */
-    public function getTerm()
+    public function getTerm(): \DateTime
     {
         return $this->term;
-    }
-
-    /**
-     * Set termScore.
-     *
-     * @param float $termScore
-     *
-     * @return EventTerm
-     */
-    public function setTermScore($termScore)
-    {
-        $this->termScore = $termScore;
-
-        return $this;
-    }
-
-    /**
-     * Get termScore.
-     *
-     * @return float
-     */
-    public function getTermScore()
-    {
-        return $this->termScore;
-    }
-
-    /**
-     * Get string reporesentation of EventTerm entity.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->term->format('Y-m-d H:i:s');
     }
 
     /**
@@ -186,14 +120,53 @@ class EventTerm
     }
 
     /**
-     * @param User $termProposer
-     *
-     * @return $this
+     * @param User $termVoter
      */
-    public function setTermProposer(User $termProposer)
+    public function addTermVoter(User $termVoter)
     {
-        $this->termProposer = $termProposer;
+        if (false === $this->termVoters->contains($termVoter)) {
+            $this->termVoters->add($termVoter);
+            $this->adjustTermScore();
+        }
+    }
 
-        return $this;
+    /**
+     * @return Collection
+     */
+    public function getTermVoters(): Collection
+    {
+        return $this->termVoters;
+    }
+
+    /**
+     * Set termScore.
+     *
+     * @return \HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm
+     *
+     * @internal param float $termScore
+     */
+    private function adjustTermScore()
+    {
+        $this->termScore = $this->termVoters->count();
+    }
+
+    /**
+     * Get termScore.
+     *
+     * @return mixed
+     */
+    public function getTermScore()
+    {
+        return $this->termScore;
+    }
+
+    /**
+     * Get string representation of EventTerm entity.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->term->format('Y-m-d H:i:s');
     }
 }

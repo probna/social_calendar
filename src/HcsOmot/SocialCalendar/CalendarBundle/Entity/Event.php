@@ -61,7 +61,7 @@ class Event
      * This holds all the terms that were candidates for a final term
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm", mappedBy="event", cascade={"persist", "remove"})
      */
     private $candidateTerms;
 
@@ -76,7 +76,7 @@ class Event
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="attends")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="attends", cascade={"persist"})
      * @ORM\JoinTable(name="event_attendees")
      */
     private $attendees;
@@ -205,7 +205,7 @@ class Event
         return $this->name;
     }
 
-    public function addTerm(\DateTime $when, User $proposer)
+    public function addTerm(int $eventTermId, \DateTime $when, User $proposer)
     {
         if (false === $this->attendees->contains($proposer)) {
             return;
@@ -217,11 +217,7 @@ class Event
             }
         }
 
-        $eventTerm = new EventTerm();
-
-        $eventTerm->setTerm($when);
-
-        $eventTerm->setTermProposer($proposer);
+        $eventTerm = new EventTerm($eventTermId, $this, $when, $proposer);
 
         $this->candidateTerms->add($eventTerm);
     }

@@ -27,7 +27,8 @@ class User extends BaseUser
     private $ownedEvents;
 
     /**
-     * @ORM\ManyToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\Event", inversedBy="attendees")
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="HcsOmot\SocialCalendar\CalendarBundle\Entity\Event", mappedBy="attendees", cascade={"persist"})
      */
     private $attends;
 

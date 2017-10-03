@@ -25,7 +25,7 @@ class EventSpec extends ObjectBehavior
     {
         $this->addAttendee($proposer);
 
-        $this->addTerm($when, $proposer);
+        $this->addTerm(time(),$when, $proposer);
 
         $collectionOfTerms = $this->getCandidateTerms();
 
@@ -36,8 +36,8 @@ class EventSpec extends ObjectBehavior
     {
         $this->addAttendee($proposer);
 
-        $this->addTerm(new \DateTime('2016-01-01 13:00'), $proposer);
-        $this->addTerm(new \DateTime('2016-01-01 13:00'), $proposer);
+        $this->addTerm(time(), new \DateTime('2016-01-01 13:00'), $proposer);
+        $this->addTerm(time(), new \DateTime('2016-01-01 13:00'), $proposer);
 
         $collectionOfTerms = $this->getCandidateTerms();
 
@@ -48,8 +48,8 @@ class EventSpec extends ObjectBehavior
     {
         $this->addAttendee($proposer);
 
-        $this->addTerm(new \DateTime('2016-01-01 13:00'), $proposer);
-        $this->addTerm(new \DateTime('2016-01-01 13:01'), $proposer);
+        $this->addTerm(time(), new \DateTime('2016-01-01 13:00'), $proposer);
+        $this->addTerm(time(), new \DateTime('2016-01-01 13:01'), $proposer);
 
         $collectionOfTerms = $this->getCandidateTerms();
 
@@ -58,7 +58,7 @@ class EventSpec extends ObjectBehavior
 
     public function it_should_not_add_term_to_event_if_user_not_invited(\DateTime $when, User $proposer)
     {
-        $this->addTerm($when, $proposer);
+        $this->addTerm(time(), $when, $proposer);
 
         $collectionOfTerms = $this->getCandidateTerms();
 
