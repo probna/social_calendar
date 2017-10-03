@@ -16,7 +16,7 @@ class Version20170813202817 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE event_term DROP FOREIGN KEY FK_BAC4AB261150D567');
         $this->addSql('DROP INDEX IDX_BAC4AB261150D567 ON event_term');
@@ -31,7 +31,7 @@ class Version20170813202817 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE event_term DROP FOREIGN KEY FK_BAC4AB26AED012A1');
         $this->addSql('DROP INDEX IDX_BAC4AB26AED012A1 ON event_term');
