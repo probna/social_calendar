@@ -7,7 +7,6 @@ use AppBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventTermCommand;
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\Event;
-use HcsOmot\SocialCalendar\CalendarBundle\Entity\EventTerm;
 use HcsOmot\SocialCalendar\CalendarBundle\Handler\CreateEventTermHandler;
 use HcsOmot\SocialCalendar\CalendarBundle\Repository\EventRepository;
 use PhpSpec\ObjectBehavior;
@@ -15,7 +14,7 @@ use Prophecy\Argument;
 
 class CreateEventTermHandlerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CreateEventTermHandler::class);
     }
