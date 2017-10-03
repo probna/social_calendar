@@ -127,7 +127,11 @@ class EventTerm
         if (false === $this->termVoters->contains($termVoter)) {
             $this->termVoters->add($termVoter);
             $this->adjustTermScore();
+
+            return;
         }
+
+        throw new \DomainException('User cannot vote more than once for same term', 403);
     }
 
     /**
