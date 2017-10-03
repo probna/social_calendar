@@ -80,4 +80,38 @@ class EventSpec extends ObjectBehavior
 
         $attendees->count()->shouldBe(1);
     }
+
+    public function it_should_allow_an_attendee_to_vote_for_an_event_term(\DateTime $term, User $termVoter, User $termProposer)
+    {
+        $this->addAttendee($termVoter);
+        $this->addAttendee($termProposer);
+
+        $this->addTerm(15, $term, $termProposer);
+        $this->voteForTerm(15, $termVoter);
+
+        $this->getEventTermVotersCount(15)->shouldReturn(2);
+    }
+
+    public function it_should_not_allow_non_attendees_to_vote(User $nonAttendee)
+    {
+        $this->shouldThrow(\DomainException::class)->duringVoteForTerm(15, $nonAttendee);
+    }
+
+    public function it_should_not_allow_an_attendee_to_vote_for_an_nonexisten_event_term(User $termVoter)
+    {
+        $this->addAttendee($termVoter);
+
+        $this->shouldThrow(\DomainException::class)->duringVoteForTerm(15, $termVoter);
+    }
+
+    public function it_should_not_have_effect_if_term_proposer_tries_to_vote_for_proposed_term(\DateTime $term, User $termProposer)
+    {
+        $this->addAttendee($termProposer);
+
+        $this->addTerm(15, $term, $termProposer);
+
+        $this->shouldThrow(\DomainException::class)->duringVoteForTerm(15, $termProposer);
+
+        $this->getEventTermVotersCount(15)->shouldBe(1);
+    }
 }
