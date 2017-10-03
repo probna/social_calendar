@@ -127,7 +127,11 @@ class EventTerm
         if (false === $this->termVoters->contains($termVoter)) {
             $this->termVoters->add($termVoter);
             $this->adjustTermScore();
+
+            return;
         }
+
+        throw new \DomainException('User cannot vote more than once for same term', 403);
     }
 
     /**
@@ -136,6 +140,11 @@ class EventTerm
     public function getTermVoters(): Collection
     {
         return $this->termVoters;
+    }
+
+    public function getTermVotersCount(): int
+    {
+        return $this->termVoters->count();
     }
 
     /**
