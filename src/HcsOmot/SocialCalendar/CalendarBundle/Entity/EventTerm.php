@@ -138,6 +138,11 @@ class EventTerm
         return $this->termVoters;
     }
 
+    public function getTermVotersCount(): int
+    {
+        return $this->termVoters->count();
+    }
+
     /**
      * Set termScore.
      *
