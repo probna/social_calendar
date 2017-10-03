@@ -36,7 +36,7 @@ class WebContext extends MinkContext implements KernelAwareContext
      */
     public function iAmAuthenticatedAs($username)
     {
-        $roleLevel = $username === 'admin_tester' ? 'ROLE_ADMIN' : 'ROLE_USER';
+        $roleLevel = 'admin_tester' === $username ? 'ROLE_ADMIN' : 'ROLE_USER';
 
         $driver = $this->getSession()->getDriver();
         if (!$driver instanceof BrowserKitDriver) {
@@ -63,7 +63,7 @@ class WebContext extends MinkContext implements KernelAwareContext
         $userManager = $this->getContainer()->get('fos_user.user_manager');
         $user        = $userManager->findUserByUsername($username);
 
-        if ($user !== null) {
+        if (null !== $user) {
             return $user;
         }
 
