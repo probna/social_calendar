@@ -5,11 +5,10 @@ namespace spec\HcsOmot\SocialCalendar\CalendarBundle\Entity;
 use AppBundle\Entity\User;
 use HcsOmot\SocialCalendar\CalendarBundle\Entity\Event;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class EventSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Event::class);
     }
@@ -17,15 +16,13 @@ class EventSpec extends ObjectBehavior
     public function let(User $owner)
     {
         $this->beConstructedWith($id = 1234, $name = 'fun party', $description = 'descr', $venue = 'venue', $owner);
-
-
     }
 
     public function it_should_add_term_to_event(\DateTime $when, User $proposer)
     {
         $this->addAttendee($proposer);
 
-        $this->addTerm(time(),$when, $proposer);
+        $this->addTerm(time(), $when, $proposer);
 
         $collectionOfTerms = $this->getCandidateTerms();
 
@@ -72,9 +69,7 @@ class EventSpec extends ObjectBehavior
         $attendees = $this->getAttendees();
 
         $attendees->count()->shouldBe(1);
-
     }
-
 
     public function it_should_not_add_same_attendee_multiple_times(User $attendee)
     {
@@ -84,7 +79,5 @@ class EventSpec extends ObjectBehavior
         $attendees = $this->getAttendees();
 
         $attendees->count()->shouldBe(1);
-
     }
-
 }

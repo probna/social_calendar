@@ -2,14 +2,12 @@
 
 namespace spec\HcsOmot\SocialCalendar\CalendarBundle\Command;
 
-use AppBundle\Entity\User;
 use HcsOmot\SocialCalendar\CalendarBundle\Command\CreateEventCommand;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CreateEventCommandSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CreateEventCommand::class);
     }

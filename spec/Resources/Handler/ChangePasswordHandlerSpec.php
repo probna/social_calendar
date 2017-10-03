@@ -2,14 +2,13 @@
 
 namespace spec\Resources\Handler;
 
+use PhpSpec\ObjectBehavior;
 use Resources\Command\ChangePassword;
 use Resources\Handler\ChangePasswordHandler;
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ChangePasswordHandlerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ChangePasswordHandler::class);
     }
