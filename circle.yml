@@ -53,6 +53,8 @@ jobs:
       - run:
           name: PHP CS Fixer
           command: ./vendor/bin/php-cs-fixer fix --dry-run --diff
+      - run:
+          command: ./vendor/bin/phpstan analyze -l 7 -c phpstan.neon src
 
       - save_cache:
           key: cache-{{ checksum "composer.lock" }}
