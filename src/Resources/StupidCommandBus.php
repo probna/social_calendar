@@ -15,6 +15,8 @@ class StupidCommandBus
             $handler = new UserRegistrationHandler();
         } elseif ($command instanceof ChangePassword) {
             $handler = new ChangePasswordHandler();
+        }else{
+            throw new \Exception('no supported commands found');
         }
 
         return $handler->handle($command);
