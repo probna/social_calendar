@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 
 /**
  * Event.
@@ -207,7 +208,7 @@ class Event
 
     public function addTerm(int $eventTermId, \DateTime $when, User $proposer)
     {
-        if (false === $this->attendees->contains($proposer)) {
+        if (false === $this->userCanProposeTerm($proposer)) {
             return;
         }
 
@@ -224,7 +225,7 @@ class Event
 
     public function addAttendee(User $attendee)
     {
-        if (true === $this->attendees->contains($attendee)) {
+        if ($this->userIsAttendee($attendee)) {
             return;
         }
         $this->attendees->add($attendee);
@@ -233,5 +234,68 @@ class Event
     public function getAttendees(): Collection
     {
         return $this->attendees;
+    }
+
+    public function voteForTerm(int $eventTermId, User $termVoter)
+    {
+        if (false === $this->userIsAttendee($termVoter)) {
+            throw new DomainException('user not allowed to vote');
+        }
+
+        if (false === $this->termExists($eventTermId)) {
+            throw new \DomainException('term nonexistent');
+        }
+
+        $eventTerm = $this->getEventTermById($eventTermId);
+
+        try {
+            $eventTerm->addTermVoter($termVoter);
+        } catch (\DomainException $ex) {
+            if ('User cannot vote more than once for same term' === $ex->getMessage()) {
+                throw new \DomainException('User already voted for this term.');
+            }
+        }
+    }
+
+    /**
+     * Check to see if a user is listed as an attendee to this event.
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return bool
+     */
+    private function userIsAttendee(User $user): bool
+    {
+        return true === $this->attendees->contains($user);
+    }
+
+    private function termExists(int $eventTermId): bool
+    {
+        foreach ($this->candidateTerms as $candidateTerm) {
+            if ($candidateTerm->getId() === $eventTermId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function getEventTermById(int $eventTermId): EventTerm
+    {
+        foreach ($this->candidateTerms as $candidateTerm) {
+            if ($candidateTerm->getId() === $eventTermId) {
+                return $candidateTerm;
+            }
+        }
+    }
+
+    public function getEventTermVotersCount(int $eventTermId): int
+    {
+        return $this->getEventTermById($eventTermId)->getTermVotersCount();
+    }
+
+    private function userCanProposeTerm(User $user): bool
+    {
+        return true === $this->userIsAttendee($user) || $user === $this->owner;
     }
 }
