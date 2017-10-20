@@ -208,7 +208,7 @@ class Event
 
     public function addTerm(int $eventTermId, \DateTime $when, User $proposer)
     {
-        if (false === $this->userIsAttendee($proposer)) {
+        if (false === $this->userCanProposeTerm($proposer)) {
             return;
         }
 
@@ -292,5 +292,10 @@ class Event
     public function getEventTermVotersCount(int $eventTermId): int
     {
         return $this->getEventTermById($eventTermId)->getTermVotersCount();
+    }
+
+    private function userCanProposeTerm(User $user): bool
+    {
+        return true === $this->userIsAttendee($user) || $user === $this->owner;
     }
 }
