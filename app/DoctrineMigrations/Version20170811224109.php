@@ -16,7 +16,7 @@ class Version20170811224109 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE event_term ADD attendee INT DEFAULT NULL');
         $this->addSql('ALTER TABLE event_term ADD CONSTRAINT FK_BAC4AB261150D567 FOREIGN KEY (attendee) REFERENCES fos_user (id)');
@@ -32,7 +32,7 @@ class Version20170811224109 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE event DROP FOREIGN KEY FK_3BAE0AA7CF60E67C');
         $this->addSql('DROP INDEX IDX_3BAE0AA7CF60E67C ON event');
